@@ -259,8 +259,16 @@ The driver is verified in rings, from hermetic to hostile:
 
 - Suman Michael <michael@hexacluster.ai>
 
+## Contributing
+
+Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md)
+and agree to the [Contributor License Agreement](CLA.md) before submitting
+a pull request.
+
 ## License
 
 BSD-3-Clause; see [LICENSE](LICENSE). Wire-protocol behavior was
 implemented with reference to the BSD-licensed CUBRID JDBC driver: facts
 only, no code copied; see [NOTICE](NOTICE).
+
+Patent rights are reserved by HexaCluster Corp.; see [PATENTS](PATENTS).
