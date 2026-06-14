@@ -1,0 +1,5 @@
+{
+  "sql": "SELECT * FROM go_frames_68816_1 ORDER BY c_int",
+  "want_rows": 2,
+  "proto_version": 9
+}

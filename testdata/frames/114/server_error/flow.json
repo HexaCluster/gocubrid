@@ -1,0 +1,6 @@
+{
+  "sql": "SELEC bogus FROM nowhere",
+  "want_rows": 0,
+  "want_err_code": -493,
+  "proto_version": 12
+}

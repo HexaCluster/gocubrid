@@ -1,0 +1,5 @@
+{
+  "sql": "SELECT 1 FROM db_root",
+  "want_rows": 1,
+  "proto_version": 10
+}

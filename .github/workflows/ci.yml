@@ -1,0 +1,79 @@
+# Offline verification ring. Everything here runs with no network access to a
+# CUBRID broker: unit tests exercise the codec/fake-broker paths and replay the
+# golden wire frames captured from live brokers (testdata/frames/<ver>/).
+# `make ci` runs the exact same sequence locally.
+name: ci
+
+on:
+  push:
+    branches: [main, dev]   # branch pushes only, a tag push of the same commit would double-run CI
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline:
+    name: offline (go ${{ matrix.go }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        go: ["1.24.x", "1.25.x"]
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: gofmt
+        run: |
+          out="$(gofmt -l .)"
+          if [ -n "$out" ]; then
+            echo "gofmt needed on:" >&2
+            echo "$out" >&2
+            exit 1
+          fi
+
+      - name: vet (all build-tag sets)
+        run: |
+          go vet ./...
+          go vet -tags integration ./...
+          go vet -tags soak ./...
+
+      - name: test (race; includes golden-frame replay)
+        run: go test ./... -race -count=1
+
+      - name: build
+        run: go build ./...
+
+  # ---------------------------------------------------------------------------
+  # Live integration matrix, documented, deliberately NOT enabled.
+  #
+  # The live rings (integration / soak) need reachable CUBRID brokers for the
+  # versions under test (9.3 / 10.1 / 10.2 / 11.0 / 11.4). GitHub-hosted
+  # runners have none, so enabling this requires a self-hosted runner with
+  # network access to the brokers, labeled `dbtest`. Until then the job below
+  # stays commented out; the workflow_dispatch trigger above is already wired
+  # so uncommenting is the only change needed.
+  #
+  # live-integration:
+  #   if: github.event_name == 'workflow_dispatch'
+  #   runs-on: [self-hosted, dbtest]
+  #   timeout-minutes: 60
+  #   steps:
+  #     - uses: actions/checkout@v6
+  #     - uses: actions/setup-go@v6
+  #       with:
+  #         go-version: stable
+  #     - name: integration matrix (all five CUBRID versions)
+  #       run: |
+  #         # export CUBRID_TEST_DSN_<ver>=cubrid://dba@<host>:33000/testdb
+  #         # for each broker, e.g. from runner-scoped secrets.
+  #         go test -tags integration -count=1 -timeout 40m -p 1 ./...
+  #     - name: soak ring (11.4)
+  #       run: |
+  #         go test -tags soak -count=1 -race -timeout 40m ./...
+  # ---------------------------------------------------------------------------

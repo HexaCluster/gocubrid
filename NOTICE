@@ -1,0 +1,9 @@
+cubrid-go: pure Go driver for CUBRID
+Copyright (c) 2026 HexaCluster Corp.
+
+Authors:
+  Suman Michael <michael@hexacluster.ai>
+
+Wire-protocol behavior was implemented with reference to the CUBRID JDBC
+driver (https://github.com/CUBRID/cubrid-jdbc), BSD-3-Clause licensed,
+Copyright CUBRID Corporation. No source code was copied.
