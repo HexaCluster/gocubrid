@@ -1,4 +1,4 @@
-cubrid-go: pure Go driver for CUBRID
+gocubrid: pure Go driver for CUBRID
 Copyright (c) 2026 HexaCluster Corp.
 
 Authors:

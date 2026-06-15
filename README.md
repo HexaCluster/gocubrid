@@ -1,4 +1,4 @@
-# cubrid-go
+# gocubrid
 
 `github.com/hexacluster/gocubrid` is the first **pure Go** driver for
 [CUBRID](https://www.cubrid.org/): zero cgo, zero dependencies beyond the
