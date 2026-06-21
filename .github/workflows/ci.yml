@@ -22,7 +22,7 @@ jobs:
       matrix:
         go: ["1.24.x", "1.25.x"]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: actions/setup-go@v6
         with:
@@ -64,7 +64,7 @@ jobs:
   #   runs-on: [self-hosted, dbtest]
   #   timeout-minutes: 60
   #   steps:
-  #     - uses: actions/checkout@v6
+  #     - uses: actions/checkout@v7
   #     - uses: actions/setup-go@v6
   #       with:
   #         go-version: stable
